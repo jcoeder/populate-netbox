@@ -5,13 +5,15 @@ from pprint import pprint
 import urllib3
 import csv
 
-
 urllib3.disable_warnings()
 
-headers = {
-    'Authorization': 'Token 123456'
-}
+netbox_api_key = 'XYZ'
+server_name = 'SERVER_NAME'
+tenant_name = 'TENANT_NAME'
 
+headers = {
+    'Authorization': 'Token ' + netbox_api_key
+}
 
 def response_to_json(response):
     json_data = json.loads(response.text)
@@ -19,22 +21,22 @@ def response_to_json(response):
 
 
 def get_tenant_id(headers):
-    response = requests.get('https://SERVER_NAME/api/tenancy/tenants/?name=TENANT_NAME', headers=headers, verify=False)
+    response = requests.get('https://' + server_name + '/api/tenancy/tenants/?name=' + tenant_name, headers=headers, verify=False)
     return response
 
 
 def get_devices(headers, tenant_id_number):
-    response = requests.get('https://SERVER_NAME/api/dcim/devices/?tenant_id=' + str(tenant_id_number), headers=headers, verify=False)
+    response = requests.get('https://' + server_name + '/api/dcim/devices/?tenant_id=' + str(tenant_id_number), headers=headers, verify=False)
     return response
 
 
 def get_interface_connections(headers, device_id):
-    response = requests.get('https://SERVER_NAME/api/dcim/interface-connections/?device_id=' + str(device_id), headers=headers, verify=False)
+    response = requests.get('https://' + server_name + '/api/dcim/interface-connections/?device_id=' + str(device_id), headers=headers, verify=False)
     return response
 
 
 def get_device_info(headers, device_id):
-    response = requests.get('https://SERVER_NAME/api/dcim/devices/' + str(device_id), headers=headers, verify=False)
+    response = requests.get('https://' + server_name + '/api/dcim/devices/' + str(device_id), headers=headers, verify=False)
     return response
 
 
